@@ -239,7 +239,6 @@ public add_player_luck( id, level, cid )
 #endif
 	if (get_pcvar_num( debug_luck ) == 1 )
 	{
-	
 		new name[32];
 		get_user_name( target, name, 31 );
 		new adminname[32];
