@@ -2,7 +2,7 @@
 #define PLUGIN "Luck Mod Core"
 #define VERSION "1.0"
 #define AUTHOR "swampdog@modriot.com"
-new lucklowy, luckhigh, lucky, unlucky;
+new lucklow, luckhigh, lucky, unlucky;
 new low, high, limit;
 new lucknum[33];
 public plugin_init()
