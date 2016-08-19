@@ -37,7 +37,7 @@ new save_count[33];
 new Sql:dbc
 new Result:result
 #else
-	new filepath[251]
+new filepath[251]
 #endif
 new savestats;
 new luck_stat[33];
