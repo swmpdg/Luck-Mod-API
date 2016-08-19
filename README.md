@@ -76,6 +76,7 @@ Natives which can be used with other plugins to expand "Luck Mod":
  * 
  * @note		Variables are configured by Cvars "luck_low", "luck_high", and "lucky_limit"
  */
+ 
 native is_lucky(id);
 
 /**
@@ -87,6 +88,7 @@ native is_lucky(id);
  * 
  * @note		Variables are configured by Cvars "luck_low", "luck_high", and "unlucky_limit"
  */
+ 
 native is_unlucky(id);
 
 /**
@@ -98,6 +100,7 @@ native is_unlucky(id);
  * 
  * @note		Every time a user is lucky or unlucky, the luck will be counted
  */
+ 
 native get_luck(id);
 
 /**
@@ -111,6 +114,7 @@ native get_luck(id);
  * 
  * @note		Every time a user is lucky or unlucky, the luck will be counted
  */
+ 
 native set_luck(id, value);
 
 /**
@@ -124,6 +128,7 @@ native set_luck(id, value);
  * 
  * @note		Every time a user is lucky or unlucky, the luck will be counted
  */
+ 
 native add_luck(id, value);
 
 /**
@@ -137,4 +142,5 @@ native add_luck(id, value);
  * 
  * @note		Every time a user is lucky or unlucky, the luck will be counted
  */
+ 
 native remove_luck(id, value);
