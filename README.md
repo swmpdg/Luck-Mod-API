@@ -14,6 +14,15 @@ Example plugin included with Luck Core plugin.
 
 To use other plugins with this Core plugin, add them to /addons/amxmodx/configs/plugins-luck.ini
 
+To change cvars with Luck Mod,, edit /addons/amxmodx/configs/luck.cfg
+
+-------
+
+
+Natives which can be used with other plugins to expand "Luck Mod":
+
+see https://github.com/swmpdg/Luck-Mod-API/wiki/Natives for a list and link to the "luck.inc" include file.
+
 -------
 
 Commands (and stats saving) in example plugin "luck_health.sma":
@@ -64,83 +73,3 @@ description:
 random number generated must be lower than this for player to be "unlucky" (default "50" [50/50 chance of a number from 1 to 100])
 
 -------
-
-Natives which can be used with other plugins to expand "Luck Mod":
-
-/**
- * Checks whether a player is "lucky" or not, and incrementally counts upward by 1 if lucky.
- * 
- * @param		id - Unique index of a player
- * 
- * @return		True if lucky, false otherwise
- * 
- * @note		Variables are configured by Cvars "luck_low", "luck_high", and "lucky_limit"
- */
- 
-native is_lucky(id);
-
-/**
- * Checks whether a player is "unlucky" or not, and decrementally counts downward by 1 if unlucky.
- * 
- * @param		id - Unique index of a player
- * 
- * @return		True if unlucky, false otherwise
- * 
- * @note		Variables are configured by Cvars "luck_low", "luck_high", and "unlucky_limit"
- */
- 
-native is_unlucky(id);
-
-/**
- * Retrieves how much luck a player has
- * 
- * @param		id - Unique index of player
- * 
- * @return		The value of luck a player has
- * 
- * @note		Every time a user is lucky or unlucky, the luck will be counted
- */
- 
-native get_luck(id);
-
-/**
- * Sets Luck stats of a player to specified value
- * 
- * @param		id - Unique index of player
- *
- * @param		value - Numer to set a player's luck stats to
- * 
- * @return		The value of luck a player has
- * 
- * @note		Every time a user is lucky or unlucky, the luck will be counted
- */
- 
-native set_luck(id, value);
-
-/**
- * Adds Luck stats to a player
- * 
- * @param		id - Unique index of player
- *
- * @param		value - Numer to add to a player's luck stats
- * 
- * @return		The value of luck added to the player
- * 
- * @note		Every time a user is lucky or unlucky, the luck will be counted
- */
- 
-native add_luck(id, value);
-
-/**
- * Subtracts Luck stats from a player
- * 
- * @param		id - Unique index of player
- *
- * @param		value - Numer to subtracted from a player's luck stats
- * 
- * @return		The value of luck a player has subtracted
- * 
- * @note		Every time a user is lucky or unlucky, the luck will be counted
- */
- 
-native remove_luck(id, value);
