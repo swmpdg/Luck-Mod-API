@@ -2,11 +2,13 @@
 
 -------
 
-Luck Mod API - AMX Mod X Plugin - Random number "Luck" system for mods
+AMX Mod X Plugin - "Luck" system for Half-Life 1 mods and plugins
 
 Written by Swamp Dog @ ModRiot.com August 18-19, 2016
 
-For use as a base "Luck" system for mods, or to be used as a "Luck Mod". 
+Last updated September 19, 2016
+
+For use as a base "Luck" system for mods, or to be used as a "Luck Mod".
 
 Can be expanded into a full "Luck Mod" with individual sub-plugins, such as the example plugin "luck_health.sma".
 
