@@ -879,7 +879,7 @@ native set_max_risk(id, value);
  * @note		This value will change as soon as luck is checked again unless restricted from doing so
  *
  */
-native add_riskid, value);
+native add_risk(id, value);
 
 /**
  * Adds on to minimum risks a player has

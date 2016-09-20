@@ -1,5 +1,9 @@
 /*
 August 18-19, 2016
+
+Last updated September 19, 2016
+Update was made to change native name of "remove_luck" to "sub_luck".
+
 Example AMXX Luck API plugin "Luck Stats + Health" by Swamp Dog
 This is an example plugin for "Luck Mod" using the dynamic natives of the AMXX Luck API by Swamp Dog.
 Credit for MySQL and File saving code used for "Luck Stats" in this plugin go to the author(s) of AMX Warn plugin: https://forums.alliedmods.net/showthread.php?p=57411?p=57411
@@ -11,6 +15,7 @@ This is only an example plugin to demonstrate the natives of "AMXX Luck API" bei
 #include <amxmisc>
 #include <fun>
 #include <luck>
+#include <luck_const>
 
 // comment SAVE_STATS to turn off "Luck stats" saving system
 #define SAVE_STATS
@@ -21,7 +26,7 @@ This is only an example plugin to demonstrate the natives of "AMXX Luck API" bei
 // comment USING_SVEN to not use customized loading for Sven Co-op 5.0
 #define USING_SVEN
 
-#define VERSION "1.0"
+#define VERSION "1.1"
 #define AUTHOR "swampdog@modriot.com"
 #define PLUGIN "Luck API Example Plugin"
 
@@ -66,7 +71,7 @@ public plugin_init()
 #else
 		new directory[201]
 		get_datadir(directory,200)
-		format(filepath,251,"%s/luck.txt",directory)
+		format(filepath,251,"%s/%s.txt",directory,LUCKCORE)
 		if(!file_exists(filepath))
 		{
 			new writestr[51]
@@ -115,7 +120,7 @@ public client_putinserver(id)
 		}
 #endif
 		if(luck_stat[id] > 0)
-			client_print(id,print_chat,"You have %d Luck stats.",get_luck(id));
+			client_print(id,print_chat,"%s You have %d Luck stats.",LUCKMSG,get_luck(id));
 	}
 #endif
 	if(get_pcvar_num(luckloop))
@@ -135,7 +140,7 @@ public luck_check(id)
 			if(get_user_health(id) < 645)
 				set_user_health(id, get_user_health(id)+5);
 			if (get_pcvar_num( debug_luck ) == 1 )
-				client_print(id,print_chat,"You are lucky");
+				client_print(id,print_chat,"%s You are lucky",LUCKMSG);
 		}
 		// check if player is unlucky with dynamic native from "AMXX Luck API"
 		else if(is_unlucky(id))
@@ -143,18 +148,18 @@ public luck_check(id)
 			if(get_user_health(id) > 5)
 				set_user_health(id, get_user_health(id)-5);
 			if (get_pcvar_num( debug_luck ) == 1 )
-				client_print(id,print_chat,"You are unlucky");
+				client_print(id,print_chat,"%s You are unlucky",LUCKMSG);
 		}
 		else
 		{
 			if(get_pcvar_num(debug_luck) == 1)
-				client_print(id,print_chat,"You are not lucky or unlucky.");
+				client_print(id,print_chat,"%s You are not lucky or unlucky.",LUCKMSG);
 		}
 		if (get_pcvar_num( debug_luck ) == 1 )
 		{
 			// check how much "Luck" a player has with dynamic native from "AMXX Luck API"
 			new luckvalue = get_luck(id);
-			client_print(id,print_chat,"Your current luck is %d.", luckvalue);
+			client_print(id,print_chat,"%s Your current luck is %d.",LUCKMSG,luckvalue);
 		}
 #if defined SAVE_STATS
 		if(get_luck(id) > oldLuck && get_pcvar_num(savestats))
@@ -174,23 +179,23 @@ public set_player_luck( id, level, cid )
 {
 	if ( !cmd_access( id, ADMIN_LEVEL_B, cid, 3 ) || is_user_hltv(id) )
 		return PLUGIN_HANDLED;
-	
+
 	new targetarg[32];
 	read_argv(1, targetarg, 31);
 	new target = cmd_target( id, targetarg, 11 );
 	if ( !target )
 		return PLUGIN_HANDLED;
-	
+
 	if(!isLoaded[target])
 	{
-		client_print(id, print_chat,"[LUCK MOD] Wait for player's stats to load.");
+		client_print(id, print_chat,"%s Wait for player's stats to load.",LUCKMSG);
 		return PLUGIN_HANDLED;
 	}
-	
+
 	new luckarg[32];
 	read_argv( 2, luckarg, 31 );
 	new setluck = str_to_num( luckarg );
-	
+
 	// set luck of player to value with dynamic native from "AMXX Luck API"
 	set_luck(target, setluck);
 #if defined SAVE_STATS
@@ -204,8 +209,8 @@ public set_player_luck( id, level, cid )
 		new adminid[32];
 		get_user_name( id, adminname, 31 );
 		get_user_authid(id, adminid, 31 );
-		log_amx("[LUCK MOD] %s %s set %s to %i Luck ",adminname, adminid, name, setluck );
-		console_print( id, "%s now has %i Luck.", name, setluck);
+		log_amx("%s %s %s set %s to %i Luck ",LUCKMSG,adminname,adminid,name,setluck );
+		console_print( id, "%s %s now has %i Luck.",LUCKMSG,name,setluck);
 	}
 	return PLUGIN_HANDLED;
 }
@@ -222,7 +227,7 @@ public add_player_luck( id, level, cid )
 
 	if(!isLoaded[target])
 	{
-		client_print(id, print_chat,"[LUCK MOD] Wait for player's stats to load.");
+		client_print(id, print_chat,"%s Wait for player's stats to load.",LUCKMSG);
 		return PLUGIN_HANDLED;
 	}
 
@@ -231,7 +236,7 @@ public add_player_luck( id, level, cid )
 	new addluck = str_to_num( luckarg );
 	if( !addluck )
 		return PLUGIN_HANDLED;
-	
+
 	// add luck to player with dynamic native from "AMXX Luck API"
 	add_luck(target, addluck);
 #if defined SAVE_STATS
@@ -245,8 +250,8 @@ public add_player_luck( id, level, cid )
 		new adminid[32];
 		get_user_name( id, adminname, 31 );
 		get_user_authid(id, adminid, 31 );
-		log_amx("[LUCK MOD] %s %s gave %s %i Luck ",adminname, adminid, name, addluck );
-		console_print( id, "%s gained %i Luck. New Luck: %i", name, addluck, get_luck(target) );
+		log_amx("%s %s %s gave %s %i Luck ",LUCKMSG,adminname,adminid,name,addluck);
+		console_print( id, "%s %s gained %i Luck. New Luck: %i",LUCKMSG,name,addluck,get_luck(target));
 	}
 	return PLUGIN_HANDLED;
 }
@@ -254,7 +259,7 @@ public remove_player_luck( id, level, cid )
 {
 	if ( !cmd_access( id, ADMIN_LEVEL_B, cid, 3 ) || is_user_hltv(id) )
 		return PLUGIN_HANDLED;
-	
+
 	new targetarg[32];
 	read_argv(1, targetarg, 31);
 	new target = cmd_target( id, targetarg, 11 );
@@ -263,7 +268,7 @@ public remove_player_luck( id, level, cid )
 
 	if(!isLoaded[target])
 	{
-		client_print(id, print_chat,"[LUCK MOD] Wait for player's stats to load.");
+		client_print(id, print_chat,"%s Wait for player's stats to load.",LUCKMSG);
 		return PLUGIN_HANDLED;
 	}
 
@@ -272,9 +277,9 @@ public remove_player_luck( id, level, cid )
 	new subluck = str_to_num( luckarg );
 	if( !subluck )
 		return PLUGIN_HANDLED;
-	
+
 	// subtract luck from player with dynamic native from "AMXX Luck API"
-	remove_luck(target, subluck);
+	sub_luck(target, subluck);
 #if defined SAVE_STATS
 	SaveLuck( target );
 #endif
@@ -286,8 +291,8 @@ public remove_player_luck( id, level, cid )
 		new adminid[32];
 		get_user_name( id, adminname, 31 );
 		get_user_authid(id, adminid, 31 );
-		log_amx("[LUCK MOD] %s %s removed %s %i Luck ",adminname, adminid, name, subluck );
-		console_print( id, "%s lost %i Luck. New Luck: %i", name, subluck, get_luck(target) );
+		log_amx("%s %s %s removed %s %i Luck ",LUCKMSG,adminname,adminid,name,subluck);
+		console_print( id, "%s %s lost %i Luck. New Luck: %i",LUCKMSG,name,subluck,get_luck(target));
 	}
 	return PLUGIN_HANDLED;
 }
@@ -300,37 +305,37 @@ public plugin_cfg()
 #else
 	new directory[201];
 	get_datadir(directory,200);
-	format(filepath,251,"%s/luck.txt",directory);
+	format(filepath,251,"%s/%s.txt",directory,LUCKCORE);
 	if(!file_exists(filepath))
 	{
 		new writestr[51];
-		format(writestr,50,"Luck stats will be saved in here.");
+		format(writestr,50,"%s %s stats will be saved in here.",LUCKMSG,LUCKCORE);
 		write_file(filepath,writestr);
 	}
-#endif	
+#endif
 }
 #endif
 #if defined USING_SQL
 public sqlinit()
 {
 	new error[32],sqlhostname[35],sqluser[35],sqlpass[35],sqldbname[35];
-	
+
 	get_cvar_string("amx_sql_host",sqlhostname,34);
 	get_cvar_string("amx_sql_user",sqluser,34);
 	get_cvar_string("amx_sql_pass",sqlpass,34);
 	get_cvar_string("amx_sql_db",sqldbname,34);
 	dbc = dbi_connect(sqlhostname,sqluser,sqlpass,sqldbname,error,31);
-	
+
 	if(dbc == SQL_FAILED)
 	{
-		server_print("[LUCK MOD] Could not connect to database.");
+		server_print("%s Could not connect to database.",LUCKMSG);
 		return PLUGIN_HANDLED;
 	}
 	else
 	{
-		server_print("[LUCK MOD] Connected to database.");
+		server_print("%s Connected to database.",LUCKMSG);
 	}
-	
+
 	result = dbi_query(dbc,"CREATE TABLE IF NOT EXISTS `luck_stats` (`authid` VARCHAR(35), `luck` INT(11) NOT NULL default '0')");
 	dbi_free_result(result);
 	return PLUGIN_HANDLED
