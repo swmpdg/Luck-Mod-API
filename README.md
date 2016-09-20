@@ -92,6 +92,7 @@ To subtract bad luck stats when player is lucky, set this to 1, otherwise set to
 sub_badluck 1
 
 To count how many chances ("risks") a player has had altogether, set this to 1, otherwise set to 0.
+
 risk_count 1
 
 -------
